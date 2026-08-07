@@ -17,7 +17,7 @@ export default function CategoryFilter({
           <button
             key={tab}
             onClick={() => onChange(tab)}
-            className={`shrink-0 rounded-pill border px-4 py-2 text-sm transition-colors ${
+            className={`shrink-0 rounded-pill border px-4 py-2 text-base transition-colors ${
               isActive ? 'border-rose bg-rose text-night' : 'border-line bg-surface text-muted'
             }`}
           >
