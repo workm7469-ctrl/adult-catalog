@@ -17,8 +17,8 @@ export default function ProductCard({ product, onSelect }: { product: Product; o
       </div>
 
       <div className="flex flex-1 flex-col gap-1 p-3">
-        <p className="font-display text-sm font-medium leading-snug text-ink line-clamp-2">{product.name}</p>
-        <p className="mt-auto font-display text-base font-semibold text-gold">{formatPrice(product.price)}</p>
+        <p className="font-display text-base font-medium leading-snug text-ink line-clamp-2">{product.name}</p>
+        <p className="mt-auto font-display text-lg font-semibold text-gold">{formatPrice(product.price)}</p>
       </div>
     </button>
   )

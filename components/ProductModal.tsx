@@ -74,18 +74,18 @@ export default function ProductModal({
         </div>
 
         <div className="flex flex-1 flex-col overflow-y-auto p-4">
-          <p className="font-display text-xl font-semibold text-ink">{product.name}</p>
-          <p className="mt-1 font-display text-2xl font-semibold text-gold">{formatPrice(product.price)}</p>
+          <p className="font-display text-2xl font-semibold text-ink">{product.name}</p>
+          <p className="mt-1 font-display text-3xl font-semibold text-gold">{formatPrice(product.price)}</p>
 
           {product.description && (
-            <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-muted">{product.description}</p>
+            <p className="mt-3 whitespace-pre-line text-base leading-relaxed text-muted">{product.description}</p>
           )}
 
           <div className="mt-5 flex gap-2">
             {hasPhone && (
               <a
                 href={telHref(contact!.phone_number!)}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-gold px-4 py-3 font-display text-sm font-semibold text-night"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-gold px-4 py-3 font-display text-base font-semibold text-night"
               >
                 โทรสั่งซื้อ
               </a>
@@ -95,7 +95,7 @@ export default function ProductModal({
                 href={contact!.line_url!}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-line_brand px-4 py-3 font-display text-sm font-semibold text-white"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-line_brand px-4 py-3 font-display text-base font-semibold text-white"
               >
                 สั่งซื้อทาง LINE
               </a>
