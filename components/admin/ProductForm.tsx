@@ -132,50 +132,6 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 rounded-card border border-line bg-surface p-4">
-      <label className="block">
-        <span className="mb-1 block text-xs text-muted">ชื่อสินค้า *</span>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
-        />
-      </label>
-
-      <label className="block">
-        <span className="mb-1 block text-xs text-muted">หมวดหมู่</span>
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value as ProductCategory)}
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
-        >
-          {CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="block">
-        <span className="mb-1 block text-xs text-muted">ราคา (บาท) *</span>
-        <input
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          inputMode="numeric"
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
-        />
-      </label>
-
-      <label className="block">
-        <span className="mb-1 block text-xs text-muted">รายละเอียดสินค้า</span>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
-        />
-      </label>
-
       <div>
         <span className="mb-1 block text-xs text-muted">รูปปก (Cover) {mode === 'add' && '*'}</span>
         <div className="flex items-center gap-3">
@@ -219,6 +175,50 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
         </div>
         <input type="file" accept="image/*" multiple onChange={handleGalleryChange} className="text-xs text-muted" />
       </div>
+
+      <label className="block">
+        <span className="mb-1 block text-xs text-muted">ชื่อสินค้า *</span>
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
+        />
+      </label>
+
+      <label className="block">
+        <span className="mb-1 block text-xs text-muted">หมวดหมู่</span>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value as ProductCategory)}
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
+        >
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="block">
+        <span className="mb-1 block text-xs text-muted">ราคา (บาท) *</span>
+        <input
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          inputMode="numeric"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
+        />
+      </label>
+
+      <label className="block">
+        <span className="mb-1 block text-xs text-muted">รายละเอียดสินค้า</span>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows={4}
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
+        />
+      </label>
 
       {error && <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>}
 
