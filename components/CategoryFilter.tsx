@@ -10,7 +10,7 @@ export default function CategoryFilter({
   onChange: (category: string) => void
 }) {
   return (
-    <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1 [touch-action:pan-x]">
+    <div className="flex flex-wrap justify-center gap-2 pb-1">
       {TABS.map((tab) => {
         const isActive = tab === active
         return (
