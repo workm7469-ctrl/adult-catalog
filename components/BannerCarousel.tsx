@@ -51,7 +51,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
         onScroll={handleScroll}
         onTouchStart={() => timerRef.current && clearInterval(timerRef.current)}
         onTouchEnd={startAutoplay}
-        className="no-scrollbar snap-x-mandatory flex aspect-[16/9] w-full overflow-x-auto sm:aspect-[21/9]"
+        className="no-scrollbar snap-x-mandatory flex aspect-[16/9] w-full overflow-x-auto [touch-action:pan-x] sm:aspect-[21/9]"
       >
         {banners.map((banner) => (
           // eslint-disable-next-line @next/next/no-img-element

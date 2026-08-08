@@ -11,6 +11,10 @@ html,
 body {
   background-color: #17151a;
   color: #f3eef0;
+  overflow-x: hidden;
+  max-width: 100%;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
 }
 
 body {

@@ -31,7 +31,7 @@ export default function AdminManagePage() {
       </header>
 
       <div className="sticky top-[64px] z-20 border-b border-line bg-night/95 backdrop-blur">
-        <div className="no-scrollbar mx-auto flex max-w-2xl gap-2 overflow-x-auto px-4 py-2.5">
+        <div className="no-scrollbar mx-auto flex max-w-2xl gap-2 overflow-x-auto px-4 py-2.5 [touch-action:pan-x]">
           {TABS.map((t) => (
             <button
               key={t.key}
