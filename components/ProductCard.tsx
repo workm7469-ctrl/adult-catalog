@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { Product } from '@/lib/types'
 import { formatPrice } from '@/lib/utils'
 
@@ -7,12 +8,13 @@ export default function ProductCard({ product, onSelect }: { product: Product; o
       onClick={() => onSelect(product)}
       className="group flex flex-col overflow-hidden rounded-card border border-line bg-surface text-left shadow-soft transition-transform active:scale-[0.98]"
     >
-      <div className="aspect-square w-full overflow-hidden bg-surface2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      <div className="relative aspect-square w-full overflow-hidden bg-surface2">
+        <Image
           src={product.cover_image_url}
           alt={product.name}
-          className="h-full w-full object-cover transition-transform duration-300 group-active:scale-105"
+          fill
+          sizes="(max-width: 639px) 50vw, (max-width: 767px) 33vw, 25vw"
+          className="object-cover transition-transform duration-300 group-active:scale-105"
         />
       </div>
 

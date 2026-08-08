@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
 import type { ContactSettings, Product } from '@/lib/types'
 import { formatPrice, telHref } from '@/lib/utils'
 
@@ -68,13 +69,15 @@ export default function ProductModal({
             className="no-scrollbar snap-x-mandatory flex aspect-square w-full overflow-x-auto [touch-action:pan-x]"
           >
             {images.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={i}
-                src={src}
-                alt={`${product.name} รูปที่ ${i + 1}`}
-                className="h-full w-full shrink-0 snap-center object-cover"
-              />
+              <div key={i} className="relative h-full w-full shrink-0 snap-center">
+                <Image
+                  src={src}
+                  alt={`${product.name} รูปที่ ${i + 1}`}
+                  fill
+                  sizes="(max-width: 639px) 100vw, 512px"
+                  className="object-cover"
+                />
+              </div>
             ))}
           </div>
 

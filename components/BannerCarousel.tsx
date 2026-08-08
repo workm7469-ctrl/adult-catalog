@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import type { Banner } from '@/lib/types'
 
 const AUTOPLAY_MS = 4500
@@ -53,14 +54,17 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
         onTouchEnd={startAutoplay}
         className="no-scrollbar snap-x-mandatory flex aspect-[16/9] w-full overflow-x-auto [touch-action:pan-x] sm:aspect-[21/9]"
       >
-        {banners.map((banner) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={banner.id}
-            src={banner.image_url}
-            alt="โปรโมชั่น"
-            className="h-full w-full shrink-0 snap-center object-cover"
-          />
+        {banners.map((banner, i) => (
+          <div key={banner.id} className="relative h-full w-full shrink-0 snap-center">
+            <Image
+              src={banner.image_url}
+              alt="โปรโมชั่น"
+              fill
+              sizes="100vw"
+              priority={i === 0}
+              className="object-cover"
+            />
+          </div>
         ))}
       </div>
 
