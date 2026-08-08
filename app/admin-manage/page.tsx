@@ -22,7 +22,7 @@ export default function AdminManagePage() {
   return (
     <main className="min-h-screen bg-night pb-16">
       <header className="sticky top-0 z-30 border-b border-line bg-surface">
-        <div className="mx-auto max-w-2xl px-4 py-3">
+        <div className="mx-auto max-w-2xl px-4 py-3 lg:max-w-5xl">
           <p className="font-display text-lg font-semibold text-ink">แผงควบคุมแค็ตตาล็อก</p>
           <p className="mt-0.5 text-[11px] uppercase tracking-wide text-muted">
             หน้านี้เข้าถึงได้ผ่านลิงก์ตรงเท่านั้น — อย่าเผยแพร่ลิงก์นี้
@@ -31,7 +31,7 @@ export default function AdminManagePage() {
       </header>
 
       <div className="sticky top-[64px] z-20 border-b border-line bg-night/95 backdrop-blur">
-        <div className="no-scrollbar mx-auto flex max-w-2xl gap-2 overflow-x-auto px-4 py-2.5 [touch-action:pan-x]">
+        <div className="no-scrollbar mx-auto flex max-w-2xl gap-2 overflow-x-auto px-4 py-2.5 [touch-action:pan-x] lg:max-w-5xl">
           {TABS.map((t) => (
             <button
               key={t.key}
@@ -46,7 +46,7 @@ export default function AdminManagePage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-2xl px-4 py-4">
+      <div className="mx-auto max-w-2xl px-4 py-4 lg:max-w-5xl">
         {tab === 'products' && <ProductList key={refreshKey} />}
 
         {tab === 'add' && (

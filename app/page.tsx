@@ -48,7 +48,7 @@ export default function StorefrontPage() {
     <main className="min-h-screen bg-night pb-10">
       <BannerCarousel banners={banners} />
 
-      <div className="mx-auto max-w-4xl px-4 pt-4">
+      <div className="mx-auto max-w-3xl px-4 pt-4 lg:max-w-6xl">
         <div className="mb-3">
           <CategoryFilter active={category} onChange={setCategory} />
         </div>
@@ -62,7 +62,7 @@ export default function StorefrontPage() {
         )}
 
         {!loading && filteredProducts.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} onSelect={setSelected} />
             ))}
