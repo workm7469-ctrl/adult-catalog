@@ -52,7 +52,7 @@ export default function ContactSettingsForm() {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="เช่น 0812345678"
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-sm text-ink"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>
 
@@ -62,7 +62,7 @@ export default function ContactSettingsForm() {
           value={lineUrl}
           onChange={(e) => setLineUrl(e.target.value)}
           placeholder="เช่น https://line.me/ti/p/xxxxxxx"
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-sm text-ink"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ContactSettings, Product } from '@/lib/types'
 import { formatPrice, telHref } from '@/lib/utils'
 
@@ -27,14 +27,39 @@ export default function ProductModal({
     setActiveIndex(index)
   }
 
+  function goTo(index: number) {
+    const el = scrollerRef.current
+    if (!el) return
+    const clamped = Math.max(0, Math.min(images.length - 1, index))
+    el.scrollTo({ left: clamped * el.clientWidth, behavior: 'smooth' })
+    setActiveIndex(clamped)
+  }
+
+  // ให้ใช้ลูกศรซ้าย-ขวาบนคีย์บอร์ดเลื่อนดูรูปได้ทันทีตั้งแต่เปิด pop-up
+  // (ไม่งั้นต้องคลิกที่รูปก่อนครั้งนึงคีย์ลูกศรถึงจะทำงาน)
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'ArrowLeft') goTo(activeIndex - 1)
+      else if (e.key === 'ArrowRight') goTo(activeIndex + 1)
+      else if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, images.length])
+
   const hasPhone = !!contact?.phone_number
   const hasLine = !!contact?.line_url
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center"
+      style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      onClick={onClose}
+    >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex max-h-[92vh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface sm:rounded-card"
+        className="flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface sm:max-h-[92dvh] sm:rounded-card"
       >
         <div className="relative shrink-0">
           <div
@@ -62,6 +87,30 @@ export default function ProductModal({
                 />
               ))}
             </div>
+          )}
+
+          {images.length > 1 && activeIndex > 0 && (
+            <button
+              onClick={() => goTo(activeIndex - 1)}
+              aria-label="รูปก่อนหน้า"
+              className="absolute left-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+          )}
+
+          {images.length > 1 && activeIndex < images.length - 1 && (
+            <button
+              onClick={() => goTo(activeIndex + 1)}
+              aria-label="รูปถัดไป"
+              className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white"
+            >
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
           )}
 
           <button

@@ -137,7 +137,7 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-sm text-ink"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>
 
@@ -146,7 +146,7 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value as ProductCategory)}
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-sm text-ink"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         >
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>
@@ -162,7 +162,7 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           inputMode="numeric"
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-sm text-ink"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>
 
@@ -172,7 +172,7 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
-          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-sm text-ink"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>
 
