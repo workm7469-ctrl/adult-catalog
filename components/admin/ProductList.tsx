@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import type { Product } from '@/lib/types'
-import { deleteImageByUrl, deleteImagesByUrls, formatPrice } from '@/lib/utils'
+import { deleteImageByUrl, deleteImagesByUrls, discountPercent, formatPrice } from '@/lib/utils'
 import ProductForm from './ProductForm'
 
 export default function ProductList() {
@@ -99,7 +99,12 @@ export default function ProductList() {
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-display text-sm font-medium text-ink">{product.name}</p>
                   <p className="text-[11px] text-muted">{product.category}</p>
-                  <p className="font-display text-sm font-semibold text-gold">{formatPrice(product.price)}</p>
+                  <div className="flex flex-wrap items-baseline gap-x-1.5">
+                    <p className="font-display text-sm font-semibold text-gold">{formatPrice(product.price)}</p>
+                    {discountPercent(product.price, product.original_price) !== null && (
+                      <p className="text-[11px] text-muted line-through">{formatPrice(product.original_price!)}</p>
+                    )}
+                  </div>
                 </div>
                 <div className="flex shrink-0 flex-col gap-1.5">
                   <div className="flex gap-1.5">

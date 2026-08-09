@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import type { ContactSettings, Product } from '@/lib/types'
-import { formatPrice, telHref } from '@/lib/utils'
+import { discountPercent, formatPrice, telHref } from '@/lib/utils'
 
 export default function ProductModal({
   product,
@@ -20,6 +20,7 @@ export default function ProductModal({
   )
   const [activeIndex, setActiveIndex] = useState(0)
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const percentOff = discountPercent(product.price, product.original_price)
 
   function handleScroll() {
     const el = scrollerRef.current
@@ -123,11 +124,22 @@ export default function ProductModal({
           >
             ✕
           </button>
+
+          {percentOff !== null && (
+            <span className="absolute left-3 top-3 rounded-pill bg-rose px-2.5 py-1 font-display text-sm font-semibold text-night shadow-soft">
+              -{percentOff}%
+            </span>
+          )}
         </div>
 
         <div className="flex flex-1 flex-col overflow-y-auto p-4">
           <p className="font-display text-3xl font-semibold text-ink">{product.name}</p>
-          <p className="mt-1 font-display text-4xl font-semibold text-gold">{formatPrice(product.price)}</p>
+          <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
+            <p className="font-display text-4xl font-semibold text-gold">{formatPrice(product.price)}</p>
+            {percentOff !== null && (
+              <p className="font-display text-xl text-muted line-through">{formatPrice(product.original_price!)}</p>
+            )}
+          </div>
 
           {product.description && (
             <p className="mt-3 whitespace-pre-line text-lg leading-relaxed text-muted">{product.description}</p>

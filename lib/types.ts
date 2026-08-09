@@ -32,6 +32,7 @@ export interface Product {
   category: ProductCategory
   description: string | null
   price: number
+  original_price: number | null
   cover_image_url: string
   gallery_images: string[]
   position: number

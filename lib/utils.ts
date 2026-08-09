@@ -4,6 +4,12 @@ export function formatPrice(price: number): string {
   return `${new Intl.NumberFormat('th-TH').format(price)} บาท`
 }
 
+/** เปอร์เซ็นต์ส่วนลด ปัดเศษลง คืนค่า null ถ้าราคาปกติไม่ได้ตั้งไว้หรือไม่มากกว่าราคาขายจริง */
+export function discountPercent(price: number, originalPrice: number | null): number | null {
+  if (!originalPrice || originalPrice <= price) return null
+  return Math.floor(((originalPrice - price) / originalPrice) * 100)
+}
+
 function sanitizeFileName(name: string): string {
   const ext = name.includes('.') ? name.split('.').pop() : 'jpg'
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`

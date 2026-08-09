@@ -51,11 +51,15 @@ create table if not exists products (
   )),
   description text,
   price numeric not null default 0,
+  original_price numeric,
   cover_image_url text not null,
   gallery_images text[] not null default '{}',
   position int not null default 0,
   created_at timestamptz not null default now()
 );
+
+-- ราคาปกติ (ราคาก่อนลด) ใช้โชว์ป้ายขีดฆ่า + เปอร์เซ็นต์ส่วนลดที่หน้าบ้าน — เว้นว่างได้ ถ้าไม่ต้องการโชว์ส่วนลด
+alter table products add column if not exists original_price numeric;
 
 create index if not exists products_category_idx on products (category);
 create index if not exists products_position_idx on products (position);
