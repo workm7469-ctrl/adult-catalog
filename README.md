@@ -69,6 +69,7 @@ app/
   layout.tsx, globals.css
 components/
   BannerCarousel.tsx        แบนเนอร์หมุนอัตโนมัติ
+  CategoryFilter.tsx        แท็บกรองหมวดหมู่สินค้า
   ProductCard.tsx, ProductModal.tsx
   admin/BannerManager.tsx, admin/ProductForm.tsx, admin/ProductList.tsx, admin/ContactSettingsForm.tsx
 lib/
