@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import type { ContactSettings } from '@/lib/types'
+import type { ContactSettings, StoreTheme } from '@/lib/types'
+import { THEME_PRESETS } from '@/lib/types'
 
 export default function ContactSettingsForm() {
   const [phone, setPhone] = useState('')
   const [lineUrl, setLineUrl] = useState('')
+  const [tagline, setTagline] = useState('')
+  const [theme, setTheme] = useState<StoreTheme>('rose')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<number | null>(null)
@@ -18,6 +21,8 @@ export default function ContactSettingsForm() {
       const s = data as ContactSettings | null
       setPhone(s?.phone_number ?? '')
       setLineUrl(s?.line_url ?? '')
+      setTagline(s?.tagline ?? '')
+      setTheme(s?.theme ?? 'rose')
       setLoading(false)
     }
     load()
@@ -28,9 +33,13 @@ export default function ContactSettingsForm() {
     setError(null)
     setSaving(true)
     try {
-      const { error: upsertError } = await supabase
-        .from('contact_settings')
-        .upsert({ id: 1, phone_number: phone.trim() || null, line_url: lineUrl.trim() || null })
+      const { error: upsertError } = await supabase.from('contact_settings').upsert({
+        id: 1,
+        phone_number: phone.trim() || null,
+        line_url: lineUrl.trim() || null,
+        tagline: tagline.trim() || null,
+        theme,
+      })
       if (upsertError) throw upsertError
       setSavedAt(Date.now())
     } catch (err: any) {
@@ -65,6 +74,38 @@ export default function ContactSettingsForm() {
           className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>
+
+      <label className="block">
+        <span className="mb-1 block text-xs text-muted">ข้อความสั้นๆ เหนือหมวดหมู่สินค้า (ไม่บังคับ)</span>
+        <input
+          value={tagline}
+          onChange={(e) => setTagline(e.target.value)}
+          placeholder="เช่น จัดส่งไว เก็บเงินปลายทาง"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
+        />
+      </label>
+
+      <div>
+        <span className="mb-1 block text-xs text-muted">ธีมสีของหน้าร้าน</span>
+        <div className="flex flex-wrap gap-2">
+          {THEME_PRESETS.map((preset) => (
+            <button
+              key={preset.value}
+              type="button"
+              onClick={() => setTheme(preset.value)}
+              className={`flex items-center gap-2 rounded-pill border px-3 py-2 text-xs ${
+                theme === preset.value ? 'border-rose bg-surface2 text-ink' : 'border-line bg-surface2/50 text-muted'
+              }`}
+            >
+              <span
+                className="h-4 w-4 shrink-0 rounded-full border border-white/10"
+                style={{ backgroundColor: preset.swatch }}
+              />
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {error && <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>}
       {savedAt && !error && (

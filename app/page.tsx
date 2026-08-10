@@ -7,6 +7,7 @@ import BannerCarousel from '@/components/BannerCarousel'
 import CategoryFilter from '@/components/CategoryFilter'
 import ProductCard from '@/components/ProductCard'
 import ProductModal from '@/components/ProductModal'
+import ThemeSync from '@/components/ThemeSync'
 
 export default function StorefrontPage() {
   const [banners, setBanners] = useState<Banner[]>([])
@@ -46,15 +47,30 @@ export default function StorefrontPage() {
 
   return (
     <main className="min-h-screen bg-night pb-10">
+      <ThemeSync theme={contact?.theme} />
       <BannerCarousel banners={banners} />
 
       <div className="mx-auto max-w-3xl px-4 pt-4 lg:max-w-6xl">
+        {contact?.tagline && (
+          <p className="mb-3 text-center text-sm text-muted">{contact.tagline}</p>
+        )}
+
         <div className="mb-3">
           <CategoryFilter active={category} onChange={setCategory} />
         </div>
 
         {loading && (
-          <p className="py-16 text-center text-sm text-muted">กำลังโหลดสินค้า…</p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="flex flex-col overflow-hidden rounded-card border border-line bg-surface">
+                <div className="skeleton-shimmer aspect-square w-full" />
+                <div className="flex flex-col gap-2 p-3">
+                  <div className="skeleton-shimmer h-4 w-4/5 rounded" />
+                  <div className="skeleton-shimmer mt-2 h-5 w-1/2 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
         )}
 
         {!loading && filteredProducts.length === 0 && (

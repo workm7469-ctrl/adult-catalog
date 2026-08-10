@@ -12,9 +12,9 @@ const config: Config = {
         ink: '#F3EEF0',
         muted: '#B7AFB8',
         rose: {
-          DEFAULT: '#D68FA0',
-          dark: '#B8677C',
-          light: '#F1DCE2',
+          DEFAULT: 'rgb(var(--brand) / <alpha-value>)',
+          dark: 'rgb(var(--brand-dark) / <alpha-value>)',
+          light: 'rgb(var(--brand-light) / <alpha-value>)',
         },
         gold: {
           DEFAULT: '#CBA35C',

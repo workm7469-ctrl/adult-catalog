@@ -28,6 +28,17 @@ insert into contact_settings (id)
 values (1)
 on conflict (id) do nothing;
 
+-- ข้อความสั้นๆ แสดงเหนือหมวดหมู่สินค้าที่หน้าร้าน (ไม่บังคับ)
+alter table contact_settings add column if not exists tagline text;
+
+-- ธีมสีของหน้าร้าน เลือกได้จากพรีเซ็ตที่กำหนดไว้ (ดู THEME_PRESETS ใน lib/types.ts)
+alter table contact_settings add column if not exists theme text not null default 'rose';
+alter table contact_settings drop constraint if exists contact_settings_theme_check;
+alter table contact_settings add constraint contact_settings_theme_check check (theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','gold'
+));
+
 -- ----------------------------------------------------------
 -- ตาราง banners (แบนเนอร์หมุนอัตโนมัติบนสุดของหน้าบ้าน)
 -- ----------------------------------------------------------

@@ -2,6 +2,18 @@ import { CATEGORIES } from '@/lib/types'
 
 const TABS = ['ทั้งหมด', ...CATEGORIES]
 
+const CATEGORY_ICONS: Record<string, string> = {
+  ทั้งหมด: '🗂️',
+  อาหารเสริม: '💊',
+  เครื่องดื่ม: '🥤',
+  สเปรย์: '🧴',
+  ตุ๊กตายาง: '🎎',
+  ดิลโด้: '💜',
+  ไข่สั่น: '🥚',
+  ปลอก: '🛡️',
+  อื่นๆ: '🏷️',
+}
+
 export default function CategoryFilter({
   active,
   onChange,
@@ -21,7 +33,7 @@ export default function CategoryFilter({
               isActive ? 'border-rose bg-rose text-night' : 'border-line bg-surface text-muted'
             }`}
           >
-            {tab}
+            <span aria-hidden="true">{CATEGORY_ICONS[tab]}</span> {tab}
           </button>
         )
       })}
