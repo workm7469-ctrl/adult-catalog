@@ -5,14 +5,16 @@ import BannerManager from '@/components/admin/BannerManager'
 import ProductForm from '@/components/admin/ProductForm'
 import ProductList from '@/components/admin/ProductList'
 import ContactSettingsForm from '@/components/admin/ContactSettingsForm'
+import ThemeSettingsForm from '@/components/admin/ThemeSettingsForm'
 
-type Tab = 'banners' | 'add' | 'products' | 'contact'
+type Tab = 'banners' | 'add' | 'products' | 'contact' | 'theme'
 
 const TABS: { key: Tab; label: string; icon: string }[] = [
   { key: 'products', label: 'สินค้า', icon: '📦' },
   { key: 'add', label: 'เพิ่มสินค้า', icon: '➕' },
   { key: 'banners', label: 'แบนเนอร์', icon: '🖼️' },
   { key: 'contact', label: 'ช่องทางสั่งซื้อ', icon: '📞' },
+  { key: 'theme', label: 'ธีมสี', icon: '🎨' },
 ]
 
 export default function AdminManagePage() {
@@ -63,6 +65,8 @@ export default function AdminManagePage() {
         {tab === 'banners' && <BannerManager />}
 
         {tab === 'contact' && <ContactSettingsForm />}
+
+        {tab === 'theme' && <ThemeSettingsForm />}
       </div>
 
       {/* จอเล็ก (มือถือ) — bottom nav แบบแอป */}

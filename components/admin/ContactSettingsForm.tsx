@@ -2,53 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import type { ContactSettings, StoreTheme } from '@/lib/types'
-import { THEME_PRESETS } from '@/lib/types'
-
-function ThemePicker({
-  label,
-  value,
-  onChange,
-}: {
-  label: string
-  value: StoreTheme
-  onChange: (theme: StoreTheme) => void
-}) {
-  return (
-    <div>
-      <span className="mb-1 block text-xs text-muted">{label}</span>
-      <div className="flex flex-wrap gap-2">
-        {THEME_PRESETS.map((preset) => (
-          <button
-            key={preset.value}
-            type="button"
-            onClick={() => onChange(preset.value)}
-            className={`flex items-center gap-2 rounded-pill border px-3 py-2 text-xs ${
-              value === preset.value ? 'border-rose bg-surface2 text-ink' : 'border-line bg-surface2/50 text-muted'
-            }`}
-          >
-            <span
-              className="h-4 w-4 shrink-0 rounded-full border border-white/10"
-              style={{ backgroundColor: preset.swatch }}
-            />
-            {preset.label}
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
+import type { ContactSettings } from '@/lib/types'
 
 export default function ContactSettingsForm() {
   const [phone, setPhone] = useState('')
   const [lineUrl, setLineUrl] = useState('')
   const [tagline, setTagline] = useState('')
-  const [theme, setTheme] = useState<StoreTheme>('rose')
-  const [nameTheme, setNameTheme] = useState<StoreTheme>('white')
-  const [priceTheme, setPriceTheme] = useState<StoreTheme>('gold')
-  const [taglineTheme, setTaglineTheme] = useState<StoreTheme>('pastel-gray')
-  const [descriptionTheme, setDescriptionTheme] = useState<StoreTheme>('pastel-gray')
-  const [bgTheme, setBgTheme] = useState<StoreTheme>('black')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<number | null>(null)
@@ -61,12 +20,6 @@ export default function ContactSettingsForm() {
       setPhone(s?.phone_number ?? '')
       setLineUrl(s?.line_url ?? '')
       setTagline(s?.tagline ?? '')
-      setTheme(s?.theme ?? 'rose')
-      setNameTheme(s?.name_theme ?? 'white')
-      setPriceTheme(s?.price_theme ?? 'gold')
-      setTaglineTheme(s?.tagline_theme ?? 'pastel-gray')
-      setDescriptionTheme(s?.description_theme ?? 'pastel-gray')
-      setBgTheme(s?.bg_theme ?? 'black')
       setLoading(false)
     }
     load()
@@ -82,12 +35,6 @@ export default function ContactSettingsForm() {
         phone_number: phone.trim() || null,
         line_url: lineUrl.trim() || null,
         tagline: tagline.trim() || null,
-        theme,
-        name_theme: nameTheme,
-        price_theme: priceTheme,
-        tagline_theme: taglineTheme,
-        description_theme: descriptionTheme,
-        bg_theme: bgTheme,
       })
       if (upsertError) throw upsertError
       setSavedAt(Date.now())
@@ -133,13 +80,6 @@ export default function ContactSettingsForm() {
           className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>
-
-      <ThemePicker label="ธีมสีพื้นหลังหน้าร้าน" value={bgTheme} onChange={setBgTheme} />
-      <ThemePicker label="ธีมสีปุ่มกด" value={theme} onChange={setTheme} />
-      <ThemePicker label="ธีมสีชื่อสินค้า" value={nameTheme} onChange={setNameTheme} />
-      <ThemePicker label="ธีมสีราคาสินค้า" value={priceTheme} onChange={setPriceTheme} />
-      <ThemePicker label="ธีมสีข้อความสั้นๆ เหนือหมวดหมู่" value={taglineTheme} onChange={setTaglineTheme} />
-      <ThemePicker label="ธีมสีรายละเอียดสินค้า" value={descriptionTheme} onChange={setDescriptionTheme} />
 
       {error && <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>}
       {savedAt && !error && (
