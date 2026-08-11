@@ -142,7 +142,7 @@ export default function ProductModal({
           </div>
 
           {product.description && (
-            <p className="mt-3 whitespace-pre-line text-lg leading-relaxed text-muted">{product.description}</p>
+            <p className="mt-3 whitespace-pre-line text-lg leading-relaxed text-accent-description">{product.description}</p>
           )}
 
           <div className="mt-5 flex gap-2">

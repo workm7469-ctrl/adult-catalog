@@ -47,6 +47,8 @@ export default function ContactSettingsForm() {
   const [nameTheme, setNameTheme] = useState<StoreTheme>('white')
   const [priceTheme, setPriceTheme] = useState<StoreTheme>('gold')
   const [taglineTheme, setTaglineTheme] = useState<StoreTheme>('pastel-gray')
+  const [descriptionTheme, setDescriptionTheme] = useState<StoreTheme>('pastel-gray')
+  const [bgTheme, setBgTheme] = useState<StoreTheme>('black')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<number | null>(null)
@@ -63,6 +65,8 @@ export default function ContactSettingsForm() {
       setNameTheme(s?.name_theme ?? 'white')
       setPriceTheme(s?.price_theme ?? 'gold')
       setTaglineTheme(s?.tagline_theme ?? 'pastel-gray')
+      setDescriptionTheme(s?.description_theme ?? 'pastel-gray')
+      setBgTheme(s?.bg_theme ?? 'black')
       setLoading(false)
     }
     load()
@@ -82,6 +86,8 @@ export default function ContactSettingsForm() {
         name_theme: nameTheme,
         price_theme: priceTheme,
         tagline_theme: taglineTheme,
+        description_theme: descriptionTheme,
+        bg_theme: bgTheme,
       })
       if (upsertError) throw upsertError
       setSavedAt(Date.now())
@@ -132,6 +138,8 @@ export default function ContactSettingsForm() {
       <ThemePicker label="ธีมสีชื่อสินค้า" value={nameTheme} onChange={setNameTheme} />
       <ThemePicker label="ธีมสีราคาสินค้า" value={priceTheme} onChange={setPriceTheme} />
       <ThemePicker label="ธีมสีข้อความสั้นๆ เหนือหมวดหมู่" value={taglineTheme} onChange={setTaglineTheme} />
+      <ThemePicker label="ธีมสีรายละเอียดสินค้า" value={descriptionTheme} onChange={setDescriptionTheme} />
+      <ThemePicker label="ธีมสีพื้นหลังหน้าร้าน" value={bgTheme} onChange={setBgTheme} />
 
       {error && <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>}
       {savedAt && !error && (

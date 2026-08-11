@@ -11,10 +11,12 @@
   --brand-dark: 184 103 124;
   --brand-light: 241 220 226;
 
-  /* สีข้อความแยกอิสระ 3 จุด (ชื่อ/ราคาสินค้า, ข้อความสั้นๆ) — ตั้งค่าเป็น inline style โดย ThemeSync.tsx ตามที่แอดมินเลือกไว้ */
+  /* สีข้อความ/พื้นหลังแยกอิสระทีละจุด — ตั้งค่าเป็น inline style โดย ThemeSync.tsx ตามที่แอดมินเลือกไว้ */
   --name-brand: 243 238 240;
   --price-brand: 201 162 39;
   --tagline-brand: 156 148 159;
+  --description-brand: 183 175 184;
+  --bg-brand: 23 21 26;
 }
 
 [data-store-theme='blue'] {

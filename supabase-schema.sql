@@ -63,6 +63,22 @@ alter table contact_settings add constraint contact_settings_tagline_theme_check
   'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
 ));
 
+-- ธีมสีรายละเอียดสินค้า (คำอธิบายสินค้าในหน้าป๊อปอัป) แยกอิสระจากจุดอื่น
+alter table contact_settings add column if not exists description_theme text not null default 'pastel-gray';
+alter table contact_settings drop constraint if exists contact_settings_description_theme_check;
+alter table contact_settings add constraint contact_settings_description_theme_check check (description_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีพื้นหลังหน้าร้าน (main ของหน้าร้าน) แยกอิสระจากจุดอื่น
+alter table contact_settings add column if not exists bg_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_bg_theme_check;
+alter table contact_settings add constraint contact_settings_bg_theme_check check (bg_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
 -- ----------------------------------------------------------
 -- ตาราง banners (แบนเนอร์หมุนอัตโนมัติบนสุดของหน้าบ้าน)
 -- ----------------------------------------------------------

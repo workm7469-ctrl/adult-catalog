@@ -46,12 +46,14 @@ export default function StorefrontPage() {
   }, [products, category])
 
   return (
-    <main className="min-h-screen bg-night pb-10">
+    <main className="min-h-screen bg-storebg pb-10">
       <ThemeSync
         theme={contact?.theme}
         nameTheme={contact?.name_theme}
         priceTheme={contact?.price_theme}
         taglineTheme={contact?.tagline_theme}
+        descriptionTheme={contact?.description_theme}
+        bgTheme={contact?.bg_theme}
       />
       <BannerCarousel banners={banners} />
 
