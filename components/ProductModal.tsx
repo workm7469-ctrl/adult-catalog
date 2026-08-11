@@ -126,7 +126,7 @@ export default function ProductModal({
           </button>
 
           {percentOff !== null && (
-            <span className="absolute left-3 top-3 rounded-pill bg-rose px-2.5 py-1 font-display text-sm font-semibold text-night shadow-soft">
+            <span className="absolute left-3 top-3 rounded-pill bg-rose px-2.5 py-1 font-display text-sm font-semibold text-accent-badgeText shadow-soft">
               -{percentOff}%
             </span>
           )}
@@ -149,7 +149,7 @@ export default function ProductModal({
             {hasPhone && (
               <a
                 href={telHref(contact!.phone_number!)}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-gold px-4 py-3 font-display text-lg font-semibold text-night"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-callbg px-4 py-3 font-display text-lg font-semibold text-accent-callText"
               >
                 โทรสั่งซื้อ
               </a>

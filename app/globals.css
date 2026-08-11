@@ -18,6 +18,9 @@
   --description-brand: 183 175 184;
   --bg-brand: 23 21 26;
   --pill-text-brand: 23 21 26;
+  --badge-text-brand: 23 21 26;
+  --call-bg-brand: 201 162 39;
+  --call-text-brand: 23 21 26;
 }
 
 [data-store-theme='blue'] {

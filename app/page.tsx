@@ -55,6 +55,9 @@ export default function StorefrontPage() {
         descriptionTheme={contact?.description_theme}
         bgTheme={contact?.bg_theme}
         pillTextTheme={contact?.pill_text_theme}
+        badgeTextTheme={contact?.badge_text_theme}
+        callBgTheme={contact?.call_bg_theme}
+        callTextTheme={contact?.call_text_theme}
       />
       <BannerCarousel banners={banners} />
 

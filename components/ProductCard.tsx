@@ -24,7 +24,7 @@ export default function ProductCard({ product, onSelect }: { product: Product; o
           }`}
         />
         {percentOff !== null && (
-          <span className="absolute left-2 top-2 rounded-pill bg-rose px-2 py-0.5 font-display text-xs font-semibold text-night shadow-soft">
+          <span className="absolute left-2 top-2 rounded-pill bg-rose px-2 py-0.5 font-display text-xs font-semibold text-accent-badgeText shadow-soft">
             -{percentOff}%
           </span>
         )}

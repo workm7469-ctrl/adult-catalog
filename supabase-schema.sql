@@ -87,6 +87,29 @@ alter table contact_settings add constraint contact_settings_pill_text_theme_che
   'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
 ));
 
+-- ธีมสีตัวหนังสือป้ายส่วนลด แยกอิสระจากธีมสีปุ่มกด (ซึ่งคุมแค่พื้นหลังของป้าย)
+alter table contact_settings add column if not exists badge_text_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_badge_text_theme_check;
+alter table contact_settings add constraint contact_settings_badge_text_theme_check check (badge_text_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีพื้นหลัง/ตัวหนังสือปุ่ม "โทรสั่งซื้อ" แยกอิสระจากจุดอื่น (เดิม fixed เป็นสีทอง ไม่อยู่ในระบบธีมเลย)
+alter table contact_settings add column if not exists call_bg_theme text not null default 'gold';
+alter table contact_settings drop constraint if exists contact_settings_call_bg_theme_check;
+alter table contact_settings add constraint contact_settings_call_bg_theme_check check (call_bg_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+alter table contact_settings add column if not exists call_text_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_call_text_theme_check;
+alter table contact_settings add constraint contact_settings_call_text_theme_check check (call_text_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
 -- ----------------------------------------------------------
 -- ตาราง banners (แบนเนอร์หมุนอัตโนมัติบนสุดของหน้าบ้าน)
 -- ----------------------------------------------------------

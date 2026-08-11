@@ -5,14 +5,37 @@ import { supabase } from '@/lib/supabaseClient'
 import type { ContactSettings, StoreTheme } from '@/lib/types'
 import ThemePicker from './ThemePicker'
 
+type ThemeField =
+  | 'bg_theme'
+  | 'theme'
+  | 'name_theme'
+  | 'price_theme'
+  | 'tagline_theme'
+  | 'description_theme'
+  | 'pill_text_theme'
+  | 'badge_text_theme'
+  | 'call_bg_theme'
+  | 'call_text_theme'
+
+const THEME_FIELDS: { key: ThemeField; label: string; fallback: StoreTheme }[] = [
+  { key: 'bg_theme', label: 'ธีมสีพื้นหลังหน้าร้าน', fallback: 'black' },
+  { key: 'theme', label: 'ธีมสีปุ่มกด', fallback: 'rose' },
+  { key: 'name_theme', label: 'ธีมสีชื่อสินค้า', fallback: 'white' },
+  { key: 'price_theme', label: 'ธีมสีราคาสินค้า', fallback: 'gold' },
+  { key: 'tagline_theme', label: 'ธีมสีข้อความสั้นๆ เหนือหมวดหมู่', fallback: 'pastel-gray' },
+  { key: 'description_theme', label: 'ธีมสีรายละเอียดสินค้า', fallback: 'pastel-gray' },
+  { key: 'pill_text_theme', label: 'ธีมสีตัวหนังสือปุ่มหมวดหมู่ (ตอนถูกเลือก)', fallback: 'black' },
+  { key: 'badge_text_theme', label: 'ธีมสีตัวหนังสือป้ายส่วนลด', fallback: 'black' },
+  { key: 'call_bg_theme', label: 'ธีมสีพื้นหลังปุ่มโทรสั่งซื้อ', fallback: 'gold' },
+  { key: 'call_text_theme', label: 'ธีมสีตัวหนังสือปุ่มโทรสั่งซื้อ', fallback: 'black' },
+]
+
+function defaultValues(): Record<ThemeField, StoreTheme> {
+  return Object.fromEntries(THEME_FIELDS.map((f) => [f.key, f.fallback])) as Record<ThemeField, StoreTheme>
+}
+
 export default function ThemeSettingsForm() {
-  const [theme, setTheme] = useState<StoreTheme>('rose')
-  const [nameTheme, setNameTheme] = useState<StoreTheme>('white')
-  const [priceTheme, setPriceTheme] = useState<StoreTheme>('gold')
-  const [taglineTheme, setTaglineTheme] = useState<StoreTheme>('pastel-gray')
-  const [descriptionTheme, setDescriptionTheme] = useState<StoreTheme>('pastel-gray')
-  const [bgTheme, setBgTheme] = useState<StoreTheme>('black')
-  const [pillTextTheme, setPillTextTheme] = useState<StoreTheme>('black')
+  const [values, setValues] = useState<Record<ThemeField, StoreTheme>>(defaultValues)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<number | null>(null)
@@ -22,13 +45,9 @@ export default function ThemeSettingsForm() {
     async function load() {
       const { data } = await supabase.from('contact_settings').select('*').eq('id', 1).maybeSingle()
       const s = data as ContactSettings | null
-      setTheme(s?.theme ?? 'rose')
-      setNameTheme(s?.name_theme ?? 'white')
-      setPriceTheme(s?.price_theme ?? 'gold')
-      setTaglineTheme(s?.tagline_theme ?? 'pastel-gray')
-      setDescriptionTheme(s?.description_theme ?? 'pastel-gray')
-      setBgTheme(s?.bg_theme ?? 'black')
-      setPillTextTheme(s?.pill_text_theme ?? 'black')
+      setValues(
+        Object.fromEntries(THEME_FIELDS.map((f) => [f.key, s?.[f.key] ?? f.fallback])) as Record<ThemeField, StoreTheme>
+      )
       setLoading(false)
     }
     load()
@@ -39,16 +58,7 @@ export default function ThemeSettingsForm() {
     setError(null)
     setSaving(true)
     try {
-      const { error: upsertError } = await supabase.from('contact_settings').upsert({
-        id: 1,
-        theme,
-        name_theme: nameTheme,
-        price_theme: priceTheme,
-        tagline_theme: taglineTheme,
-        description_theme: descriptionTheme,
-        bg_theme: bgTheme,
-        pill_text_theme: pillTextTheme,
-      })
+      const { error: upsertError } = await supabase.from('contact_settings').upsert({ id: 1, ...values })
       if (upsertError) throw upsertError
       setSavedAt(Date.now())
     } catch (err: any) {
@@ -64,13 +74,14 @@ export default function ThemeSettingsForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 rounded-card border border-line bg-surface p-4">
-      <ThemePicker label="ธีมสีพื้นหลังหน้าร้าน" value={bgTheme} onChange={setBgTheme} />
-      <ThemePicker label="ธีมสีปุ่มกด" value={theme} onChange={setTheme} />
-      <ThemePicker label="ธีมสีชื่อสินค้า" value={nameTheme} onChange={setNameTheme} />
-      <ThemePicker label="ธีมสีราคาสินค้า" value={priceTheme} onChange={setPriceTheme} />
-      <ThemePicker label="ธีมสีข้อความสั้นๆ เหนือหมวดหมู่" value={taglineTheme} onChange={setTaglineTheme} />
-      <ThemePicker label="ธีมสีรายละเอียดสินค้า" value={descriptionTheme} onChange={setDescriptionTheme} />
-      <ThemePicker label="ธีมสีตัวหนังสือปุ่มหมวดหมู่ (ตอนถูกเลือก)" value={pillTextTheme} onChange={setPillTextTheme} />
+      {THEME_FIELDS.map((f) => (
+        <ThemePicker
+          key={f.key}
+          label={f.label}
+          value={values[f.key]}
+          onChange={(v) => setValues((prev) => ({ ...prev, [f.key]: v }))}
+        />
+      ))}
 
       {error && <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>}
       {savedAt && !error && (

@@ -110,5 +110,8 @@ export interface ContactSettings {
   description_theme: StoreTheme
   bg_theme: StoreTheme
   pill_text_theme: StoreTheme
+  badge_text_theme: StoreTheme
+  call_bg_theme: StoreTheme
+  call_text_theme: StoreTheme
   updated_at: string
 }
