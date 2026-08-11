@@ -10,6 +10,7 @@ export default function ContactSettingsForm() {
   const [lineUrl, setLineUrl] = useState('')
   const [tagline, setTagline] = useState('')
   const [theme, setTheme] = useState<StoreTheme>('rose')
+  const [textTheme, setTextTheme] = useState<StoreTheme>('gold')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<number | null>(null)
@@ -23,6 +24,7 @@ export default function ContactSettingsForm() {
       setLineUrl(s?.line_url ?? '')
       setTagline(s?.tagline ?? '')
       setTheme(s?.theme ?? 'rose')
+      setTextTheme(s?.text_theme ?? 'gold')
       setLoading(false)
     }
     load()
@@ -39,6 +41,7 @@ export default function ContactSettingsForm() {
         line_url: lineUrl.trim() || null,
         tagline: tagline.trim() || null,
         theme,
+        text_theme: textTheme,
       })
       if (upsertError) throw upsertError
       setSavedAt(Date.now())
@@ -95,6 +98,28 @@ export default function ContactSettingsForm() {
               onClick={() => setTheme(preset.value)}
               className={`flex items-center gap-2 rounded-pill border px-3 py-2 text-xs ${
                 theme === preset.value ? 'border-rose bg-surface2 text-ink' : 'border-line bg-surface2/50 text-muted'
+              }`}
+            >
+              <span
+                className="h-4 w-4 shrink-0 rounded-full border border-white/10"
+                style={{ backgroundColor: preset.swatch }}
+              />
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <span className="mb-1 block text-xs text-muted">ธีมสีข้อความ</span>
+        <div className="flex flex-wrap gap-2">
+          {THEME_PRESETS.map((preset) => (
+            <button
+              key={preset.value}
+              type="button"
+              onClick={() => setTextTheme(preset.value)}
+              className={`flex items-center gap-2 rounded-pill border px-3 py-2 text-xs ${
+                textTheme === preset.value ? 'border-rose bg-surface2 text-ink' : 'border-line bg-surface2/50 text-muted'
               }`}
             >
               <span

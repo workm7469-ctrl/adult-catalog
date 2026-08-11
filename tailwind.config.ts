@@ -20,6 +20,9 @@ const config: Config = {
           DEFAULT: '#CBA35C',
           dark: '#A9843F',
         },
+        accent: {
+          DEFAULT: 'rgb(var(--text-brand) / <alpha-value>)',
+        },
         line_brand: '#06C755',
         danger: '#E0637A',
       },

@@ -133,9 +133,9 @@ export default function ProductModal({
         </div>
 
         <div className="flex flex-1 flex-col overflow-y-auto p-4">
-          <p className="font-display text-3xl font-semibold text-ink">{product.name}</p>
+          <p className="font-display text-3xl font-semibold text-accent">{product.name}</p>
           <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
-            <p className="font-display text-4xl font-semibold text-gold">{formatPrice(product.price)}</p>
+            <p className="font-display text-4xl font-semibold text-accent">{formatPrice(product.price)}</p>
             {percentOff !== null && (
               <p className="font-display text-xl text-muted line-through">{formatPrice(product.original_price!)}</p>
             )}

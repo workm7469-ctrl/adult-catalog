@@ -93,5 +93,6 @@ export interface ContactSettings {
   line_url: string | null
   tagline: string | null
   theme: StoreTheme
+  text_theme: StoreTheme
   updated_at: string
 }

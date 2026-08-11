@@ -10,6 +10,9 @@
   --brand: 214 143 160;
   --brand-dark: 184 103 124;
   --brand-light: 241 220 226;
+
+  /* สีข้อความ (ธีมเริ่มต้น: ทอง) — สลับด้วย [data-store-text-theme] บน <html> */
+  --text-brand: 201 162 39;
 }
 
 [data-store-theme='blue'] {
@@ -112,6 +115,28 @@
   --brand-dark: 156 122 29;
   --brand-light: 250 243 224;
 }
+
+[data-store-text-theme='rose'] { --text-brand: 214 143 160; }
+[data-store-text-theme='blue'] { --text-brand: 37 99 235; }
+[data-store-text-theme='indigo'] { --text-brand: 79 70 229; }
+[data-store-text-theme='violet'] { --text-brand: 124 58 237; }
+[data-store-text-theme='purple'] { --text-brand: 147 51 234; }
+[data-store-text-theme='pink'] { --text-brand: 219 39 119; }
+[data-store-text-theme='red'] { --text-brand: 220 38 38; }
+[data-store-text-theme='orange'] { --text-brand: 234 88 12; }
+[data-store-text-theme='amber'] { --text-brand: 217 119 6; }
+[data-store-text-theme='green'] { --text-brand: 22 163 74; }
+[data-store-text-theme='emerald'] { --text-brand: 5 150 105; }
+[data-store-text-theme='cyan'] { --text-brand: 8 145 178; }
+[data-store-text-theme='sky'] { --text-brand: 2 132 199; }
+[data-store-text-theme='slate'] { --text-brand: 100 116 139; }
+[data-store-text-theme='pastel-blue'] { --text-brand: 96 165 250; }
+[data-store-text-theme='pastel-pink'] { --text-brand: 244 114 182; }
+[data-store-text-theme='pastel-mint'] { --text-brand: 52 211 153; }
+[data-store-text-theme='pastel-lavender'] { --text-brand: 167 139 250; }
+[data-store-text-theme='pastel-gray'] { --text-brand: 148 154 163; }
+[data-store-text-theme='black'] { --text-brand: 63 63 70; }
+[data-store-text-theme='gold'] { --text-brand: 201 162 39; }
 
 html,
 body {
