@@ -86,7 +86,7 @@ export default function ContactSettingsForm() {
       </label>
 
       <div>
-        <span className="mb-1 block text-xs text-muted">ธีมสีของหน้าร้าน</span>
+        <span className="mb-1 block text-xs text-muted">ธีมสีปุ่มกด</span>
         <div className="flex flex-wrap gap-2">
           {THEME_PRESETS.map((preset) => (
             <button
