@@ -36,15 +36,31 @@ alter table contact_settings add column if not exists theme text not null defaul
 alter table contact_settings drop constraint if exists contact_settings_theme_check;
 alter table contact_settings add constraint contact_settings_theme_check check (theme in (
   'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
-  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','gold'
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
 ));
 
--- ธีมสีข้อความของหน้าร้าน (ชื่อ/ราคาสินค้า, ข้อความสั้นๆ เหนือหมวดหมู่) แยกจากธีมสีปุ่มกด
-alter table contact_settings add column if not exists text_theme text not null default 'gold';
-alter table contact_settings drop constraint if exists contact_settings_text_theme_check;
-alter table contact_settings add constraint contact_settings_text_theme_check check (text_theme in (
+-- ธีมสีข้อความของหน้าร้าน แยกอิสระทีละจุด (ชื่อสินค้า / ราคาสินค้า / ข้อความสั้นๆ เหนือหมวดหมู่) จากธีมสีปุ่มกด
+alter table contact_settings drop column if exists text_theme;
+
+alter table contact_settings add column if not exists name_theme text not null default 'white';
+alter table contact_settings drop constraint if exists contact_settings_name_theme_check;
+alter table contact_settings add constraint contact_settings_name_theme_check check (name_theme in (
   'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
-  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','gold'
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+alter table contact_settings add column if not exists price_theme text not null default 'gold';
+alter table contact_settings drop constraint if exists contact_settings_price_theme_check;
+alter table contact_settings add constraint contact_settings_price_theme_check check (price_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+alter table contact_settings add column if not exists tagline_theme text not null default 'pastel-gray';
+alter table contact_settings drop constraint if exists contact_settings_tagline_theme_check;
+alter table contact_settings add constraint contact_settings_tagline_theme_check check (tagline_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
 ));
 
 -- ----------------------------------------------------------

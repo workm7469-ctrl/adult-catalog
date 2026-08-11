@@ -2,23 +2,39 @@
 
 import { useEffect } from 'react'
 import type { StoreTheme } from '@/lib/types'
+import { themeToRgbSpace } from '@/lib/types'
 
-// ตั้ง data-store-theme / data-store-text-theme ที่ <html> ตามธีมที่ร้านค้าเลือกไว้ใน "ช่องทางสั่งซื้อ"
-// ให้ CSS var --brand / --text-brand ใน globals.css สลับสีตามได้ทั่วทั้งเว็บ
+// ตั้ง data-store-theme ที่ <html> ตามธีมสีปุ่มกดที่ร้านค้าเลือกไว้ใน "ช่องทางสั่งซื้อ"
+// ให้ CSS var --brand ต่างๆ ใน globals.css สลับสีตามได้ทั่วทั้งเว็บ
+//
+// ธีมสีข้อความ (ชื่อสินค้า/ราคา/tagline) แยกอิสระจากกันทีละจุด เลยตั้งเป็น CSS var
+// ตรงๆ ผ่าน inline style แทน แทนที่จะใช้ data-attribute แบบธีมสีปุ่มกด
 export default function ThemeSync({
   theme,
-  textTheme,
+  nameTheme,
+  priceTheme,
+  taglineTheme,
 }: {
   theme: StoreTheme | null | undefined
-  textTheme: StoreTheme | null | undefined
+  nameTheme: StoreTheme | null | undefined
+  priceTheme: StoreTheme | null | undefined
+  taglineTheme: StoreTheme | null | undefined
 }) {
   useEffect(() => {
     document.documentElement.setAttribute('data-store-theme', theme || 'rose')
   }, [theme])
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-store-text-theme', textTheme || 'gold')
-  }, [textTheme])
+    document.documentElement.style.setProperty('--name-brand', themeToRgbSpace(nameTheme, 'white'))
+  }, [nameTheme])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--price-brand', themeToRgbSpace(priceTheme, 'gold'))
+  }, [priceTheme])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--tagline-brand', themeToRgbSpace(taglineTheme, 'pastel-gray'))
+  }, [taglineTheme])
 
   return null
 }

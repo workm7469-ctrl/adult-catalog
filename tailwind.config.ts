@@ -21,7 +21,9 @@ const config: Config = {
           dark: '#A9843F',
         },
         accent: {
-          DEFAULT: 'rgb(var(--text-brand) / <alpha-value>)',
+          name: 'rgb(var(--name-brand) / <alpha-value>)',
+          price: 'rgb(var(--price-brand) / <alpha-value>)',
+          tagline: 'rgb(var(--tagline-brand) / <alpha-value>)',
         },
         line_brand: '#06C755',
         danger: '#E0637A',

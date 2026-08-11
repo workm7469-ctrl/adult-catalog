@@ -31,9 +31,9 @@ export default function ProductCard({ product, onSelect }: { product: Product; o
       </div>
 
       <div className="flex flex-1 flex-col gap-1 p-3">
-        <p className="font-display text-lg font-medium leading-snug text-accent line-clamp-2">{product.name}</p>
+        <p className="font-display text-lg font-medium leading-snug text-accent-name line-clamp-2">{product.name}</p>
         <div className="mt-auto flex flex-wrap items-baseline gap-x-2">
-          <p className="font-display text-xl font-semibold text-accent">{formatPrice(product.price)}</p>
+          <p className="font-display text-xl font-semibold text-accent-price">{formatPrice(product.price)}</p>
           {percentOff !== null && (
             <p className="font-display text-sm text-muted line-through">{formatPrice(product.original_price!)}</p>
           )}

@@ -47,12 +47,17 @@ export default function StorefrontPage() {
 
   return (
     <main className="min-h-screen bg-night pb-10">
-      <ThemeSync theme={contact?.theme} textTheme={contact?.text_theme} />
+      <ThemeSync
+        theme={contact?.theme}
+        nameTheme={contact?.name_theme}
+        priceTheme={contact?.price_theme}
+        taglineTheme={contact?.tagline_theme}
+      />
       <BannerCarousel banners={banners} />
 
       <div className="mx-auto max-w-3xl px-4 pt-4 lg:max-w-6xl">
         {contact?.tagline && (
-          <p className="mb-3 text-center text-sm text-accent">{contact.tagline}</p>
+          <p className="mb-3 text-center text-sm text-accent-tagline">{contact.tagline}</p>
         )}
 
         <div className="mb-3">
