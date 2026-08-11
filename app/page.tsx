@@ -54,6 +54,7 @@ export default function StorefrontPage() {
         taglineTheme={contact?.tagline_theme}
         descriptionTheme={contact?.description_theme}
         bgTheme={contact?.bg_theme}
+        pillTextTheme={contact?.pill_text_theme}
       />
       <BannerCarousel banners={banners} />
 

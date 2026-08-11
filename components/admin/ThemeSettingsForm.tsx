@@ -12,6 +12,7 @@ export default function ThemeSettingsForm() {
   const [taglineTheme, setTaglineTheme] = useState<StoreTheme>('pastel-gray')
   const [descriptionTheme, setDescriptionTheme] = useState<StoreTheme>('pastel-gray')
   const [bgTheme, setBgTheme] = useState<StoreTheme>('black')
+  const [pillTextTheme, setPillTextTheme] = useState<StoreTheme>('black')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<number | null>(null)
@@ -27,6 +28,7 @@ export default function ThemeSettingsForm() {
       setTaglineTheme(s?.tagline_theme ?? 'pastel-gray')
       setDescriptionTheme(s?.description_theme ?? 'pastel-gray')
       setBgTheme(s?.bg_theme ?? 'black')
+      setPillTextTheme(s?.pill_text_theme ?? 'black')
       setLoading(false)
     }
     load()
@@ -45,6 +47,7 @@ export default function ThemeSettingsForm() {
         tagline_theme: taglineTheme,
         description_theme: descriptionTheme,
         bg_theme: bgTheme,
+        pill_text_theme: pillTextTheme,
       })
       if (upsertError) throw upsertError
       setSavedAt(Date.now())
@@ -67,6 +70,7 @@ export default function ThemeSettingsForm() {
       <ThemePicker label="ธีมสีราคาสินค้า" value={priceTheme} onChange={setPriceTheme} />
       <ThemePicker label="ธีมสีข้อความสั้นๆ เหนือหมวดหมู่" value={taglineTheme} onChange={setTaglineTheme} />
       <ThemePicker label="ธีมสีรายละเอียดสินค้า" value={descriptionTheme} onChange={setDescriptionTheme} />
+      <ThemePicker label="ธีมสีตัวหนังสือปุ่มหมวดหมู่ (ตอนถูกเลือก)" value={pillTextTheme} onChange={setPillTextTheme} />
 
       {error && <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>}
       {savedAt && !error && (

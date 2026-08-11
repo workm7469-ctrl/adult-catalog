@@ -25,6 +25,7 @@ const config: Config = {
           price: 'rgb(var(--price-brand) / <alpha-value>)',
           tagline: 'rgb(var(--tagline-brand) / <alpha-value>)',
           description: 'rgb(var(--description-brand) / <alpha-value>)',
+          pill: 'rgb(var(--pill-text-brand) / <alpha-value>)',
         },
         storebg: 'rgb(var(--bg-brand) / <alpha-value>)',
         line_brand: '#06C755',

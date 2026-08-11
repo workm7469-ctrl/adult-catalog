@@ -16,6 +16,7 @@ export default function ThemeSync({
   taglineTheme,
   descriptionTheme,
   bgTheme,
+  pillTextTheme,
 }: {
   theme: StoreTheme | null | undefined
   nameTheme: StoreTheme | null | undefined
@@ -23,6 +24,7 @@ export default function ThemeSync({
   taglineTheme: StoreTheme | null | undefined
   descriptionTheme: StoreTheme | null | undefined
   bgTheme: StoreTheme | null | undefined
+  pillTextTheme: StoreTheme | null | undefined
 }) {
   useEffect(() => {
     document.documentElement.setAttribute('data-store-theme', theme || 'rose')
@@ -47,6 +49,10 @@ export default function ThemeSync({
   useEffect(() => {
     document.documentElement.style.setProperty('--bg-brand', themeToRgbSpace(bgTheme, 'black'))
   }, [bgTheme])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--pill-text-brand', themeToRgbSpace(pillTextTheme, 'black'))
+  }, [pillTextTheme])
 
   return null
 }

@@ -79,6 +79,14 @@ alter table contact_settings add constraint contact_settings_bg_theme_check chec
   'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
 ));
 
+-- ธีมสีตัวหนังสือปุ่มหมวดหมู่ตอนถูกเลือก แยกอิสระจากธีมสีปุ่มกด (ซึ่งคุมแค่พื้นหลัง/ขอบ)
+alter table contact_settings add column if not exists pill_text_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_pill_text_theme_check;
+alter table contact_settings add constraint contact_settings_pill_text_theme_check check (pill_text_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
 -- ----------------------------------------------------------
 -- ตาราง banners (แบนเนอร์หมุนอัตโนมัติบนสุดของหน้าบ้าน)
 -- ----------------------------------------------------------
