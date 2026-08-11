@@ -134,12 +134,12 @@ export default function ContactSettingsForm() {
         />
       </label>
 
+      <ThemePicker label="ธีมสีพื้นหลังหน้าร้าน" value={bgTheme} onChange={setBgTheme} />
       <ThemePicker label="ธีมสีปุ่มกด" value={theme} onChange={setTheme} />
       <ThemePicker label="ธีมสีชื่อสินค้า" value={nameTheme} onChange={setNameTheme} />
       <ThemePicker label="ธีมสีราคาสินค้า" value={priceTheme} onChange={setPriceTheme} />
       <ThemePicker label="ธีมสีข้อความสั้นๆ เหนือหมวดหมู่" value={taglineTheme} onChange={setTaglineTheme} />
       <ThemePicker label="ธีมสีรายละเอียดสินค้า" value={descriptionTheme} onChange={setDescriptionTheme} />
-      <ThemePicker label="ธีมสีพื้นหลังหน้าร้าน" value={bgTheme} onChange={setBgTheme} />
 
       {error && <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm text-danger">{error}</p>}
       {savedAt && !error && (
