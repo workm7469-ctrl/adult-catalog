@@ -28,6 +28,88 @@ insert into contact_settings (id)
 values (1)
 on conflict (id) do nothing;
 
+-- ข้อความสั้นๆ แสดงเหนือหมวดหมู่สินค้าที่หน้าร้าน (ไม่บังคับ)
+alter table contact_settings add column if not exists tagline text;
+
+-- ธีมสีปุ่มกดของหน้าร้าน เลือกได้จากพรีเซ็ตที่กำหนดไว้ (ดู THEME_PRESETS ใน lib/types.ts)
+alter table contact_settings add column if not exists theme text not null default 'rose';
+alter table contact_settings drop constraint if exists contact_settings_theme_check;
+alter table contact_settings add constraint contact_settings_theme_check check (theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีข้อความของหน้าร้าน แยกอิสระทีละจุด (ชื่อสินค้า / ราคาสินค้า / ข้อความสั้นๆ เหนือหมวดหมู่) จากธีมสีปุ่มกด
+alter table contact_settings drop column if exists text_theme;
+
+alter table contact_settings add column if not exists name_theme text not null default 'white';
+alter table contact_settings drop constraint if exists contact_settings_name_theme_check;
+alter table contact_settings add constraint contact_settings_name_theme_check check (name_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+alter table contact_settings add column if not exists price_theme text not null default 'gold';
+alter table contact_settings drop constraint if exists contact_settings_price_theme_check;
+alter table contact_settings add constraint contact_settings_price_theme_check check (price_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+alter table contact_settings add column if not exists tagline_theme text not null default 'pastel-gray';
+alter table contact_settings drop constraint if exists contact_settings_tagline_theme_check;
+alter table contact_settings add constraint contact_settings_tagline_theme_check check (tagline_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีรายละเอียดสินค้า (คำอธิบายสินค้าในหน้าป๊อปอัป) แยกอิสระจากจุดอื่น
+alter table contact_settings add column if not exists description_theme text not null default 'pastel-gray';
+alter table contact_settings drop constraint if exists contact_settings_description_theme_check;
+alter table contact_settings add constraint contact_settings_description_theme_check check (description_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีพื้นหลังหน้าร้าน (main ของหน้าร้าน) แยกอิสระจากจุดอื่น
+alter table contact_settings add column if not exists bg_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_bg_theme_check;
+alter table contact_settings add constraint contact_settings_bg_theme_check check (bg_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีตัวหนังสือปุ่มหมวดหมู่ตอนถูกเลือก แยกอิสระจากธีมสีปุ่มกด (ซึ่งคุมแค่พื้นหลัง/ขอบ)
+alter table contact_settings add column if not exists pill_text_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_pill_text_theme_check;
+alter table contact_settings add constraint contact_settings_pill_text_theme_check check (pill_text_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีตัวหนังสือป้ายส่วนลด แยกอิสระจากธีมสีปุ่มกด (ซึ่งคุมแค่พื้นหลังของป้าย)
+alter table contact_settings add column if not exists badge_text_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_badge_text_theme_check;
+alter table contact_settings add constraint contact_settings_badge_text_theme_check check (badge_text_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+-- ธีมสีพื้นหลัง/ตัวหนังสือปุ่ม "โทรสั่งซื้อ" แยกอิสระจากจุดอื่น (เดิม fixed เป็นสีทอง ไม่อยู่ในระบบธีมเลย)
+alter table contact_settings add column if not exists call_bg_theme text not null default 'gold';
+alter table contact_settings drop constraint if exists contact_settings_call_bg_theme_check;
+alter table contact_settings add constraint contact_settings_call_bg_theme_check check (call_bg_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
+alter table contact_settings add column if not exists call_text_theme text not null default 'black';
+alter table contact_settings drop constraint if exists contact_settings_call_text_theme_check;
+alter table contact_settings add constraint contact_settings_call_text_theme_check check (call_text_theme in (
+  'rose','blue','indigo','violet','purple','pink','red','orange','amber','green','emerald',
+  'cyan','sky','slate','pastel-blue','pastel-pink','pastel-mint','pastel-lavender','pastel-gray','black','white','gold'
+));
+
 -- ----------------------------------------------------------
 -- ตาราง banners (แบนเนอร์หมุนอัตโนมัติบนสุดของหน้าบ้าน)
 -- ----------------------------------------------------------

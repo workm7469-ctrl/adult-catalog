@@ -5,6 +5,123 @@
 :root {
   --font-display: initial;
   --font-body: initial;
+
+  /* สีแบรนด์หลัก (ธีมเริ่มต้น: ชมพูโรส) — สลับด้วย [data-store-theme] บน <html> */
+  --brand: 214 143 160;
+  --brand-dark: 184 103 124;
+  --brand-light: 241 220 226;
+
+  /* สีข้อความ/พื้นหลังแยกอิสระทีละจุด — ตั้งค่าเป็น inline style โดย ThemeSync.tsx ตามที่แอดมินเลือกไว้ */
+  --name-brand: 243 238 240;
+  --price-brand: 201 162 39;
+  --tagline-brand: 156 148 159;
+  --description-brand: 183 175 184;
+  --bg-brand: 23 21 26;
+  --pill-text-brand: 23 21 26;
+  --badge-text-brand: 23 21 26;
+  --call-bg-brand: 201 162 39;
+  --call-text-brand: 23 21 26;
+}
+
+[data-store-theme='blue'] {
+  --brand: 37 99 235;
+  --brand-dark: 29 78 216;
+  --brand-light: 219 234 254;
+}
+[data-store-theme='indigo'] {
+  --brand: 79 70 229;
+  --brand-dark: 67 56 202;
+  --brand-light: 224 231 255;
+}
+[data-store-theme='violet'] {
+  --brand: 124 58 237;
+  --brand-dark: 109 40 217;
+  --brand-light: 237 233 254;
+}
+[data-store-theme='purple'] {
+  --brand: 147 51 234;
+  --brand-dark: 126 34 206;
+  --brand-light: 243 232 255;
+}
+[data-store-theme='pink'] {
+  --brand: 219 39 119;
+  --brand-dark: 190 24 93;
+  --brand-light: 252 231 243;
+}
+[data-store-theme='red'] {
+  --brand: 220 38 38;
+  --brand-dark: 185 28 28;
+  --brand-light: 254 226 226;
+}
+[data-store-theme='orange'] {
+  --brand: 234 88 12;
+  --brand-dark: 194 65 12;
+  --brand-light: 255 237 213;
+}
+[data-store-theme='amber'] {
+  --brand: 217 119 6;
+  --brand-dark: 180 83 9;
+  --brand-light: 254 243 199;
+}
+[data-store-theme='green'] {
+  --brand: 22 163 74;
+  --brand-dark: 21 128 61;
+  --brand-light: 220 252 231;
+}
+[data-store-theme='emerald'] {
+  --brand: 5 150 105;
+  --brand-dark: 4 120 87;
+  --brand-light: 209 250 229;
+}
+[data-store-theme='cyan'] {
+  --brand: 8 145 178;
+  --brand-dark: 14 116 144;
+  --brand-light: 207 250 254;
+}
+[data-store-theme='sky'] {
+  --brand: 2 132 199;
+  --brand-dark: 3 105 161;
+  --brand-light: 224 242 254;
+}
+[data-store-theme='slate'] {
+  --brand: 100 116 139;
+  --brand-dark: 71 85 105;
+  --brand-light: 226 232 240;
+}
+[data-store-theme='pastel-blue'] {
+  --brand: 96 165 250;
+  --brand-dark: 59 130 246;
+  --brand-light: 239 246 255;
+}
+[data-store-theme='pastel-pink'] {
+  --brand: 244 114 182;
+  --brand-dark: 236 72 153;
+  --brand-light: 253 242 248;
+}
+[data-store-theme='pastel-mint'] {
+  --brand: 52 211 153;
+  --brand-dark: 16 185 129;
+  --brand-light: 236 253 245;
+}
+[data-store-theme='pastel-lavender'] {
+  --brand: 167 139 250;
+  --brand-dark: 139 92 246;
+  --brand-light: 245 243 255;
+}
+[data-store-theme='pastel-gray'] {
+  --brand: 148 154 163;
+  --brand-dark: 113 121 133;
+  --brand-light: 243 244 246;
+}
+[data-store-theme='black'] {
+  --brand: 63 63 70;
+  --brand-dark: 24 24 27;
+  --brand-light: 244 244 245;
+}
+[data-store-theme='gold'] {
+  --brand: 201 162 39;
+  --brand-dark: 156 122 29;
+  --brand-light: 250 243 224;
 }
 
 html,
@@ -22,7 +139,7 @@ body {
 }
 
 ::selection {
-  background-color: #d68fa0;
+  background-color: rgb(var(--brand));
   color: #17151a;
 }
 
@@ -46,5 +163,63 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes pop-in {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+.animate-sheet-up {
+  animation: sheet-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-pop-in {
+  animation: pop-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* พื้นหลังกะพริบระหว่างรอรูปโหลด — โทนอ่อนกว่าพื้นหลังมืดของเว็บ ให้เห็นว่ากำลังโหลดอยู่ */
+.skeleton-shimmer {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.04) 30%,
+    rgba(255, 255, 255, 0.09) 50%,
+    rgba(255, 255, 255, 0.04) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
   }
 }

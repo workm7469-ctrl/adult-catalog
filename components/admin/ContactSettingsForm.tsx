@@ -7,6 +7,7 @@ import type { ContactSettings } from '@/lib/types'
 export default function ContactSettingsForm() {
   const [phone, setPhone] = useState('')
   const [lineUrl, setLineUrl] = useState('')
+  const [tagline, setTagline] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [savedAt, setSavedAt] = useState<number | null>(null)
@@ -18,6 +19,7 @@ export default function ContactSettingsForm() {
       const s = data as ContactSettings | null
       setPhone(s?.phone_number ?? '')
       setLineUrl(s?.line_url ?? '')
+      setTagline(s?.tagline ?? '')
       setLoading(false)
     }
     load()
@@ -28,9 +30,12 @@ export default function ContactSettingsForm() {
     setError(null)
     setSaving(true)
     try {
-      const { error: upsertError } = await supabase
-        .from('contact_settings')
-        .upsert({ id: 1, phone_number: phone.trim() || null, line_url: lineUrl.trim() || null })
+      const { error: upsertError } = await supabase.from('contact_settings').upsert({
+        id: 1,
+        phone_number: phone.trim() || null,
+        line_url: lineUrl.trim() || null,
+        tagline: tagline.trim() || null,
+      })
       if (upsertError) throw upsertError
       setSavedAt(Date.now())
     } catch (err: any) {
@@ -62,6 +67,16 @@ export default function ContactSettingsForm() {
           value={lineUrl}
           onChange={(e) => setLineUrl(e.target.value)}
           placeholder="เช่น https://line.me/ti/p/xxxxxxx"
+          className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
+        />
+      </label>
+
+      <label className="block">
+        <span className="mb-1 block text-xs text-muted">ข้อความสั้นๆ เหนือหมวดหมู่สินค้า (ไม่บังคับ)</span>
+        <input
+          value={tagline}
+          onChange={(e) => setTagline(e.target.value)}
+          placeholder="เช่น จัดส่งไว เก็บเงินปลายทาง"
           className="w-full rounded-lg border border-line bg-surface2 px-3 py-2 text-base text-ink"
         />
       </label>

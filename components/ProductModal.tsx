@@ -55,13 +55,13 @@ export default function ProductModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center"
+      className="animate-fade-in fixed inset-0 z-50 flex items-end justify-center bg-black/70 sm:items-center"
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface sm:max-h-[92dvh] sm:rounded-card"
+        className="animate-sheet-up flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface sm:max-h-[92dvh] sm:animate-pop-in sm:rounded-card"
       >
         <div className="relative shrink-0">
           <div
@@ -126,30 +126,30 @@ export default function ProductModal({
           </button>
 
           {percentOff !== null && (
-            <span className="absolute left-3 top-3 rounded-pill bg-rose px-2.5 py-1 font-display text-sm font-semibold text-night shadow-soft">
+            <span className="absolute left-3 top-3 rounded-pill bg-rose px-2.5 py-1 font-display text-sm font-semibold text-accent-badgeText shadow-soft">
               -{percentOff}%
             </span>
           )}
         </div>
 
         <div className="flex flex-1 flex-col overflow-y-auto p-4">
-          <p className="font-display text-3xl font-semibold text-ink">{product.name}</p>
+          <p className="font-display text-3xl font-semibold text-accent-name">{product.name}</p>
           <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
-            <p className="font-display text-4xl font-semibold text-gold">{formatPrice(product.price)}</p>
+            <p className="font-display text-4xl font-semibold text-accent-price">{formatPrice(product.price)}</p>
             {percentOff !== null && (
               <p className="font-display text-xl text-muted line-through">{formatPrice(product.original_price!)}</p>
             )}
           </div>
 
           {product.description && (
-            <p className="mt-3 whitespace-pre-line text-lg leading-relaxed text-muted">{product.description}</p>
+            <p className="mt-3 whitespace-pre-line text-lg leading-relaxed text-accent-description">{product.description}</p>
           )}
 
           <div className="mt-5 flex gap-2">
             {hasPhone && (
               <a
                 href={telHref(contact!.phone_number!)}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-gold px-4 py-3 font-display text-lg font-semibold text-night"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-pill bg-callbg px-4 py-3 font-display text-lg font-semibold text-accent-callText"
               >
                 โทรสั่งซื้อ
               </a>
