@@ -1,15 +1,24 @@
 'use client'
 
 import { useState } from 'react'
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
+import { SortableContext, arrayMove, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 import { supabase } from '@/lib/supabaseClient'
 import { CATEGORIES, type Product, type ProductCategory } from '@/lib/types'
 import { deleteImageByUrl, deleteImagesByUrls, uploadImage } from '@/lib/utils'
+import SortableGalleryThumb from './SortableGalleryThumb'
 
 type Props = {
   mode: 'add' | 'edit'
   initialProduct?: Product
   onSaved: () => void
   onCancel?: () => void
+}
+
+type GalleryItem = { id: string; kind: 'existing'; url: string } | { id: string; kind: 'new'; file: File; preview: string }
+
+function makeId() {
+  return Math.random().toString(36).slice(2)
 }
 
 export default function ProductForm({ mode, initialProduct, onSaved, onCancel }: Props) {
@@ -22,11 +31,13 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
   )
   const [coverFile, setCoverFile] = useState<File | null>(null)
   const [coverPreview, setCoverPreview] = useState<string | null>(initialProduct?.cover_image_url ?? null)
-  const [existingGallery, setExistingGallery] = useState<string[]>(initialProduct?.gallery_images ?? [])
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(
+    (initialProduct?.gallery_images ?? []).map((url) => ({ id: url, kind: 'existing', url }))
+  )
   const [removedGallery, setRemovedGallery] = useState<string[]>([])
-  const [newGalleryFiles, setNewGalleryFiles] = useState<File[]>([])
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const gallerySensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }))
 
   function handleCoverChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -37,17 +48,31 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
 
   function handleGalleryChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
-    setNewGalleryFiles((prev) => [...prev, ...files])
+    const newItems: GalleryItem[] = files.map((file) => ({
+      id: makeId(),
+      kind: 'new',
+      file,
+      preview: URL.createObjectURL(file),
+    }))
+    setGalleryItems((prev) => [...prev, ...newItems])
     e.target.value = ''
   }
 
-  function removeExistingGalleryImage(url: string) {
-    setExistingGallery((prev) => prev.filter((u) => u !== url))
-    setRemovedGallery((prev) => [...prev, url])
+  function removeGalleryItem(item: GalleryItem) {
+    setGalleryItems((prev) => prev.filter((i) => i.id !== item.id))
+    if (item.kind === 'existing') {
+      setRemovedGallery((prev) => [...prev, item.url])
+    }
   }
 
-  function removeNewGalleryFile(index: number) {
-    setNewGalleryFiles((prev) => prev.filter((_, i) => i !== index))
+  function handleGalleryDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+    setGalleryItems((prev) => {
+      const oldIndex = prev.findIndex((i) => i.id === active.id)
+      const newIndex = prev.findIndex((i) => i.id === over.id)
+      return arrayMove(prev, oldIndex, newIndex)
+    })
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -82,13 +107,16 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
         coverUrl = await uploadImage('product-images', coverFile, 'products')
       }
 
-      const uploadedGalleryUrls: string[] = []
-      for (const file of newGalleryFiles) {
-        const url = await uploadImage('product-images', file, 'products')
-        uploadedGalleryUrls.push(url)
+      // อัปโหลดทีละรูปตามลำดับที่จัดไว้ (รวมทั้งรูปเดิมและรูปใหม่) เพื่อให้ gallery_images เก็บลำดับที่ผู้ใช้จัดไว้จริง
+      const finalGallery: string[] = []
+      for (const item of galleryItems) {
+        if (item.kind === 'existing') {
+          finalGallery.push(item.url)
+        } else {
+          const url = await uploadImage('product-images', item.file, 'products')
+          finalGallery.push(url)
+        }
       }
-
-      const finalGallery = [...existingGallery, ...uploadedGalleryUrls]
 
       const payload = {
         name: name.trim(),
@@ -133,8 +161,7 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
         setOriginalPrice('')
         setCoverFile(null)
         setCoverPreview(null)
-        setExistingGallery([])
-        setNewGalleryFiles([])
+        setGalleryItems([])
       }
     } catch (err: any) {
       setError(err?.message ?? 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
@@ -157,34 +184,20 @@ export default function ProductForm({ mode, initialProduct, onSaved, onCancel }:
       </div>
 
       <div>
-        <span className="mb-1 block text-xs text-muted">รูปประกอบ (Gallery)</span>
+        <span className="mb-1 block text-xs text-muted">รูปประกอบ (Gallery) — ลากรูปเพื่อสลับตำแหน่งได้</span>
         <div className="mb-2 flex flex-wrap gap-2">
-          {existingGallery.map((url) => (
-            <div key={url} className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt="gallery" className="h-14 w-14 rounded-lg border border-line object-cover" />
-              <button
-                type="button"
-                onClick={() => removeExistingGalleryImage(url)}
-                className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-danger text-[10px] text-white"
-              >
-                ✕
-              </button>
-            </div>
-          ))}
-          {newGalleryFiles.map((file, i) => (
-            <div key={i} className="relative">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={URL.createObjectURL(file)} alt="new gallery" className="h-14 w-14 rounded-lg border border-line object-cover" />
-              <button
-                type="button"
-                onClick={() => removeNewGalleryFile(i)}
-                className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-danger text-[10px] text-white"
-              >
-                ✕
-              </button>
-            </div>
-          ))}
+          <DndContext sensors={gallerySensors} collisionDetection={closestCenter} onDragEnd={handleGalleryDragEnd}>
+            <SortableContext items={galleryItems.map((i) => i.id)} strategy={horizontalListSortingStrategy}>
+              {galleryItems.map((item) => (
+                <SortableGalleryThumb
+                  key={item.id}
+                  id={item.id}
+                  src={item.kind === 'existing' ? item.url : item.preview}
+                  onRemove={() => removeGalleryItem(item)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
         </div>
         <input type="file" accept="image/*" multiple onChange={handleGalleryChange} className="text-xs text-muted" />
       </div>
