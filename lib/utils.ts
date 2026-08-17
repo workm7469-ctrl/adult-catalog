@@ -15,14 +15,46 @@ function sanitizeFileName(name: string): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
 }
 
+const MAX_IMAGE_DIMENSION = 1600
+const IMAGE_QUALITY = 0.8
+
+/** บีบอัดรูปฝั่งเบราว์เซอร์ก่อนอัปโหลด: ย่อด้านยาวสุดไม่เกิน 1600px และแปลงเป็น JPEG คุณภาพ 80% เพื่อประหยัดพื้นที่ Supabase Storage */
+async function compressImage(file: File): Promise<File> {
+  if (!file.type.startsWith('image/') || file.type === 'image/svg+xml' || file.type === 'image/gif') {
+    return file
+  }
+
+  const bitmap = await createImageBitmap(file)
+  const scale = Math.min(1, MAX_IMAGE_DIMENSION / Math.max(bitmap.width, bitmap.height))
+  const width = Math.round(bitmap.width * scale)
+  const height = Math.round(bitmap.height * scale)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return file
+  ctx.drawImage(bitmap, 0, 0, width, height)
+  bitmap.close()
+
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, 'image/jpeg', IMAGE_QUALITY)
+  )
+  if (!blob || blob.size >= file.size) return file
+
+  const newName = file.name.replace(/\.[^.]+$/, '') + '.jpg'
+  return new File([blob], newName, { type: 'image/jpeg' })
+}
+
 /** อัปโหลดไฟล์รูปขึ้น Supabase Storage แล้วคืนค่า public URL */
 export async function uploadImage(
   bucket: 'product-images' | 'banner-images',
   file: File,
   folder?: string
 ): Promise<string> {
-  const path = folder ? `${folder}/${sanitizeFileName(file.name)}` : sanitizeFileName(file.name)
-  const { error } = await supabase.storage.from(bucket).upload(path, file, {
+  const compressed = await compressImage(file)
+  const path = folder ? `${folder}/${sanitizeFileName(compressed.name)}` : sanitizeFileName(compressed.name)
+  const { error } = await supabase.storage.from(bucket).upload(path, compressed, {
     cacheControl: '3600',
     upsert: false,
   })
