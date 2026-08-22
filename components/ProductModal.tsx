@@ -61,7 +61,7 @@ export default function ProductModal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="animate-sheet-up flex max-h-[85dvh] w-full max-w-lg flex-col overflow-hidden rounded-t-card bg-surface sm:max-h-[92dvh] sm:animate-pop-in sm:rounded-card"
+        className="animate-sheet-up flex h-full w-full flex-col overflow-hidden bg-surface sm:h-auto sm:max-h-[92dvh] sm:max-w-lg sm:animate-pop-in sm:rounded-card"
       >
         <div className="relative shrink-0">
           <div
@@ -132,7 +132,7 @@ export default function ProductModal({
           )}
         </div>
 
-        <div className="flex flex-1 flex-col overflow-y-auto p-4">
+        <div className="flex flex-1 flex-col overflow-y-auto p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
           <p className="font-display text-3xl font-semibold text-accent-name">{product.name}</p>
           <div className="mt-1 flex flex-wrap items-baseline gap-x-3">
             <p className="font-display text-4xl font-semibold text-accent-price">{formatPrice(product.price)}</p>
